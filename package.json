@@ -1,0 +1,14 @@
+{
+  "name": "security-modeling",
+  "version": "1.0.0",
+  "description": "Методы математического моделирования в кибербезопасности",
+  "main": "index.js",
+  "repository": "ssh://git@gitverse.ru:2222/eziz/2026-1--study--security-modeling.git",
+  "author": "ezizn <1032255390@rudn.ru>",
+  "license": "CC-BY-4.0",
+  "config": {
+    "commitizen": {
+      "path": "cz-customizable"
+    }
+  }
+}
