@@ -1,0 +1,71 @@
+# # Экспоненциальный рост
+#
+# **Цель:** исследовать решение дифференциального уравнения
+#
+# du/dt = αu
+#
+# где α — коэффициент роста.
+
+using DrWatson
+@quickactivate "project"
+
+using DifferentialEquations
+using Plots
+using DataFrames
+using JLD2
+
+# имя скрипта
+script_name = splitext(basename(PROGRAM_FILE))[1]
+
+# создаём папки для результатов
+mkpath(plotsdir(script_name))
+mkpath(datadir(script_name))
+
+# ## Определение модели
+#
+# Дифференциальное уравнение:
+#
+# du/dt = αu
+
+function exponential_growth!(du, u, p, t)
+    α = p
+    du[1] = α * u[1]
+end
+
+# ## Параметры модели
+
+u0 = [1.0]          # начальное значение
+α = 0.3             # коэффициент роста
+tspan = (0.0, 10.0) # интервал времени
+
+# ## Решение уравнения
+
+prob = ODEProblem(exponential_growth!, u0, tspan, α)
+sol = solve(prob, Tsit5(), saveat=0.1)
+
+# ## Построение графика
+
+plot(sol,
+    label="u(t)",
+    xlabel="Время t",
+    ylabel="Популяция u",
+    title="Экспоненциальный рост (α = $α)",
+    lw=2,
+    legend=:topleft
+)
+
+savefig(plotsdir(script_name, "exponential_growth_α=$α.png"))
+
+# ## Анализ результатов
+
+df = DataFrame(t=sol.t, u=first.(sol.u))
+
+println("Первые 5 строк результатов:")
+println(first(df,5))
+
+u_final = last(sol.u)[1]
+
+doubling_time = log(2)/α
+
+println("Аналитическое время удвоения: ",
+round(doubling_time, digits=2))
