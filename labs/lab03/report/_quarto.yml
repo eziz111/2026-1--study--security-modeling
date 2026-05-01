@@ -53,12 +53,7 @@ format:
     babel-lang: russian
     babel-otherlangs: english
     #### Biblatex
-    cite-method: biblatex
-    biblio-style: gost-numeric
-    biblatexoptions:
-      - backend=biber
-      - langhook=extras
-      - autolang=other*
+    cite-method: citeproc
     #### Misc options
     csquotes: true
     indent: true
